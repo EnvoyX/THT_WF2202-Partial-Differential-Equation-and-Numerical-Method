@@ -1,3 +1,4 @@
+% Gauss Seidel Number 1c
 clear all; close all; clc
 format short
 

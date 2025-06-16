@@ -1,3 +1,4 @@
+% Gauss Elimination Number 1d
 clear all; close all; clc
 format short
 
