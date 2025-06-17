@@ -40,12 +40,12 @@ function[xs,ys]=MERK2nd(x0,y0,L,h)
     while x < L
         i=i+1;
         h=min(h,L-x);
-    k1 = n4ODE(x,y);
-    k2 = n4ODE(x+h,y+k1*h);
-    x=x+h;
-    y=y+0.5*(k1+k2)*h;
-    xs(i)=x;
-    ys(i,:)=y;
+        k1 = n4ODE(x,y);
+        k2 = n4ODE(x+h,y+k1*h);
+        x=x+h;
+        y=y+0.5*(k1+k2)*h;
+        xs(i)=x;
+        ys(i,:)=y;
     end
 end
 

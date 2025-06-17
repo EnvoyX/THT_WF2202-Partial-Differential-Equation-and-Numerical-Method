@@ -54,5 +54,5 @@ for k = 1:size(T, 1)
 end
 xlabel('Position (ft)');
 ylabel('Temperature (F)');
-title("Steady Heat Condunction in a Wall with time step (dt): " + num2str(dt) + "hr (Gauss-Seidel)")
+title("Steady Heat Condunction in a Wall with time step","FontSize", , "(dt)", "(Gauss-Seidel)");
 grid on;
