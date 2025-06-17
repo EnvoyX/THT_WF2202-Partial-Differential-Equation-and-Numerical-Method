@@ -37,6 +37,9 @@ T(1,2:N-1) = 100; %Initial Condition
 T(1,1)   = (300+100) / 2;   % Bottom-left
 T(1,N)   = (300+100) / 2;  % Bottom-right
 
+fprintf("Initial Matrix T\n");
+disp(T);
+
 % Interior Nodes
 for n= 1:M-1
     for i=2:N-1

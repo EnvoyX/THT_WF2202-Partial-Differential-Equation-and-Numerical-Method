@@ -49,7 +49,7 @@ figure;
 h = heatmap(T);
 h.Title = 'Heated Plate Temperature Gradient Initial & Boundary Conditions';
 h.XLabel = 'Left';
-h.YLabel = 'Bottom'
+h.YLabel = 'Bottom';
 
 % Gauss-Seidel Iteration
 for iter = 1:max_iter

@@ -17,17 +17,28 @@ M = str2double(NIM(5:8));
 
 % Contants
 I = 1500;
-L = 200;
+L = 200; % mm
 
 % Boundary Condition
 x0 = 0;
 y0 = [0,0];
 z0 = 0;
-h = 20;
+h = 20;  % step
 
 % Declare Functions
+
+
+% ODE System for Beam Deflection
+function yz__1 = n4ODE(x,y)
+    global M E I;
+    z = y(1,2);
+    y__1 = z;
+    z__1 = M/(E*I)*(1+z^2)^(1.5);
+    yz__1=[y__1,z__1];
+end
+
 % Modified Euler Runge-Kutta 2nd Order
-function[xs,ys]=MERK2nd(x0,y0,L,h)
+function[xs,ys]=ModifiedEulerRK2(x0,y0,L,h)
     n = floor(L./h);
     order = length(y0);
     xs=zeros(n+1,1);
@@ -50,7 +61,7 @@ function[xs,ys]=MERK2nd(x0,y0,L,h)
 end
 
 % Classical Runge-Kutta 4th Order
-function[xs,ys]=CRK4th(x0,y0,L,h)
+function[xs,ys]=ClassicalRK4(x0,y0,L,h)
     n = floor(L./h);
     order = length(y0);
     xs=zeros(n+1,1);
@@ -75,17 +86,10 @@ function[xs,ys]=CRK4th(x0,y0,L,h)
 end
 
 
-function yz__1 = n4ODE(x,y)
-    global M E I;
-    z = y(1,2);
-    y__1 = z;
-    z__1 = M/(E*I)*(1+z^2)^(1.5);
-    yz__1=[y__1,z__1];
-end
+% Call Function
+[x2,y2]=ModifiedEulerRK2(x0,y0,L,h);
+[x4,y4]=ClassicalRK4(x0,y0,L,h);
 
-
-[x2,y2]=MERK2nd(x0,y0,L,h);
-[x4,y4]=CRK4th(x0,y0,L,h);
 plot(x2,y2(:,1),'-*')
 hold on
 grid on

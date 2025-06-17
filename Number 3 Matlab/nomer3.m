@@ -1,5 +1,12 @@
 clear all; close all ; clc
 
+
+% Input SID/NIM
+NIM = input("Input NIM/SID: ");
+fprintf('SID/NIM Number: %d\n', NIM);
+
+NIM = num2str(NIM);  % Convert to array of string;
+
 % Discretization of Geometry
 Length = 5;
 Width = 5;
@@ -15,11 +22,11 @@ dy = linspace(0, Width, nndy);
 % Boundary Condition & Initial Condition
 T = zeros(nndx, nndy); % Initialize solution for T
 
-% Boundary Conditions from NIM 13123069
-T_top = 131;
-T_right = 23;
-T_bottom = 6;
-T_left = 9;
+% Boundary Conditions from NIM
+T_top = str2double(NIM(1:3));
+T_right = str2double(NIM(4:5));
+T_bottom = str2double(NIM(6:7));
+T_left = str2double(NIM(8));
 
 
 % Apply boundary conditions
@@ -60,7 +67,7 @@ epsilon_s = 1; % convergence tolerance in %
 max_iter = 10000; % maximum iteration 
 
 % Relaxition Paramter for faster calculation
-omega = 1.5; % Relaxation Parameter
+omega = 1; % Relaxation Parameter
 
 % Gauss-Seidel Algorithm 
 for iter = 1:max_iter
