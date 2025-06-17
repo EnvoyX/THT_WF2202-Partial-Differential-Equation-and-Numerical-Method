@@ -28,7 +28,7 @@ x = zeros(n,1); % Initial guess
 x_prev_iteration = x;
 
 
-% Gauss-Seidel Formula
+% Gauss-Seidel Algorithm
 for k = 1:7
     for i = 1:n
         sum1 = A(i,1:i-1) * x(1:i-1);

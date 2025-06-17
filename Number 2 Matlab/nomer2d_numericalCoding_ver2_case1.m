@@ -31,17 +31,20 @@ end
 U = zeros(M,N);
 U(:,1) = 300; %Left Boundary Condition
 U(:,N) = 300; %Right Boundary Condition
-U(M,2:N-1) = 100; %Initial Condition
+U(1,2:N-1) = 100; %Initial Condition
+
+% Fix the corners by averaging overlapping BCs
+U(1,1)   = (300+100) / 2;   % Bottom-left
+U(1,N)   = (300+100) / 2;  % Bottom-right
+
 % Interior Nodes
-for n= 1:M-2
+for n= 1:M-1
     for i=2:N-1
         U(n+1, i) = r*U(n,i+1) + (1-2*r)*U(n,i) + r*U(n,i-1);
     end
 end
-
-
-disp(U)
-
+% Result of Matrics U
+disp(U);
 % Plotting
 x = linspace(0, L, Nx+1);
 figure(1);
@@ -51,16 +54,12 @@ for k = 1:size(U, 1)
 end
 xlabel('Position (ft)');
 ylabel('Temperature (F)');
-title('Unsteady Heat Conduction in a Wall Case 1 (FTCS)');
+title('Steady Heat Conduction in a Wall Case 1 (FTCS)');
 grid on;
 
 
+n_idx = 101;  % corresponds to t = 0.5 hr
+i_idx = 11;   % corresponds to x = 0.5 ft
 
-%fprintf('   t       x       U\n')
-%for n= 1:M-2
-    %for i=2:N-1
-   %     U(n+1, i) = r*U(n,i+1) + (1-2*r)*U(n,i) + r*U(n,i-1);
-  %      fprintf('%.4f   %.4f  %.4f\n' , t(n+1), x(i), U(n+1, i))
-  %  end
- %   fprintf('   t       x       U\n')
-%end
+numerical_u = U(n_idx, i_idx);
+fprintf('Numerical solution at u(0.5, 0.5) = %.4f°F\n', numerical_u);
