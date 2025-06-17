@@ -35,8 +35,8 @@ T(N,N)   = (T_bottom + T_right) / 2;  % Bottom-right
 % Initial Matrix T
 disp(T);
 
-% PLot initial and boundary conditions
-figure(1);
+% Plot initial and boundary conditions
+figure;
 [x,y] = meshgrid(1:N,1:N);
 surf(x,y,T);
 colorbar;
@@ -44,14 +44,12 @@ xlabel("X"); ylabel("Y"); zlabel("Temperature (°F)");
 title('Initial and Boundary Conditions Temperature Distribution (Gauss-Seidel)');
 view(45,30);
 
-% Top view
-figure(2);
-[x,y] = meshgrid(1:N,1:N);
-surf(x,y,T);
-colorbar;
-xlabel("X"); ylabel("Y"); zlabel("Temperature (°F)");
-title('Top View IC & BC Temperature Distribution (Gauss-Seidel)');
-view(2);
+% Heatmap IC & BC  Plots
+figure;
+h = heatmap(T);
+h.Title = 'Heated Plate Temperature Gradient Initial & Boundary Conditions';
+h.XLabel = 'Left';
+h.YLabel = 'Bottom'
 
 % Gauss-Seidel Iteration
 for iter = 1:max_iter
@@ -83,7 +81,7 @@ disp(T);
 
 % Plotting the result
 [X, Y] = meshgrid(1:N, 1:N);
-figure(3);
+figure;
 surf(X, Y, T, 'EdgeColor', 'none');
 xlabel('X');
 ylabel('Y');
@@ -93,14 +91,10 @@ colorbar;
 view(45,30);
 
 
-% Top View Results
-[X, Y] = meshgrid(1:N, 1:N);
-figure(4);
-surf(X, Y, T, 'EdgeColor', 'none');
-xlabel('X');
-ylabel('Y');
-zlabel('Temperature (°F)');
-title('Top View Steady-State Temperature Distribution (Gauss-Seidel)');
-colorbar;
-view(2);
+% Heatmap Plots
+figure;
+h = heatmap(T);
+h.Title = 'Heated Plate Temperature Gradient';
+h.XLabel = 'Left';
+h.YLabel = 'Bottom'
 
