@@ -64,25 +64,26 @@ max_iter = 10000; % maximum iteration
 % Relaxition Paramter for faster calculation
 omega = 1.5; % Relaxation Parameter
 
-% Gauss-Seidel Algorithm 
-for iter = 1:max_iter
-    max_error = 0;
+% Gauss-Seidel Algorithm
+iter = 0;
+
+while iter < max_iter
+    T_prev_iter = T;
     for i = 2:nndx-1
         for j = 2:nndy-1
-            T_prev_iter = T(i,j);
-            T(i,j) = 0.25 * (T(i+1,j) + T(i-1,j) + T(i,j+1) + T(i,j-1));
-            error = abs((T(i,j) - T_prev_iter)/T(i,j)) * 100;
-            if error > max_error
-                max_error = error;
-            end
+            T(i,j) = (1 - omega)*T(i,j) + omega*(0.25*(T(i+1,j) + T(i-1,j) + T(i,j+1) + T(i,j-1)));
         end
     end
-    
-    if max_error < epsilon_s
-        fprintf('Converged in %d iterations with max error = %.4f%%\n', iter, max_error);
+
+    % Convergence check
+    if max(max(abs(T - T_prev_iter))) < epsilon_s
+        fprintf('Converged in %d iterations with max error = %.4f%%\n', iter, max(max(abs(T - T_prev_iter))) );
         break
     end
+    iter = iter + 1;
 end
+
+
 
 % Display final 3x3 interior values
 fprintf('Final Temperature at Interior Points (%.f x %.f):\n',nelx-1,nely-1);

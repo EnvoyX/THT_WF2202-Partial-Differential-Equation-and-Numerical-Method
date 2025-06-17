@@ -3,6 +3,10 @@ clc; clear; close all;
 % Grid Size (3x3 interior, so 5x5 including boundaries)
 N = 5;
 
+% Discretization of Geometry
+Length = 5;
+width = 5;
+
 % Boundary Conditions from NIM 13123069
 T_top = 131;
 T_right = 23;
@@ -28,14 +32,35 @@ T(1,N)   = (T_top + T_right) / 2;     % Top-right
 T(N,1)   = (T_bottom + T_left) / 2;   % Bottom-left
 T(N,N)   = (T_bottom + T_right) / 2;  % Bottom-right
 
+% Initial Matrix T
+disp(T);
+
+% PLot initial and boundary conditions
+figure(1);
+[x,y] = meshgrid(1:N,1:N);
+surf(x,y,T);
+colorbar;
+xlabel("X"); ylabel("Y"); zlabel("Temperature (°F)");
+title('Initial and Boundary Conditions Temperature Distribution (Gauss-Seidel)');
+view(45,30);
+
+% Top view
+figure(2);
+[x,y] = meshgrid(1:N,1:N);
+surf(x,y,T);
+colorbar;
+xlabel("X"); ylabel("Y"); zlabel("Temperature (°F)");
+title('Top View IC & BC Temperature Distribution (Gauss-Seidel)');
+view(2);
+
 % Gauss-Seidel Iteration
 for iter = 1:max_iter
     max_error = 0;
     for i = 2:N-1
         for j = 2:N-1
-            old = T(i,j);
+            prev_iter = T(i,j);
             T(i,j) = 0.25 * (T(i+1,j) + T(i-1,j) + T(i,j+1) + T(i,j-1));
-            error = abs((T(i,j) - old)/T(i,j)) * 100;
+            error = abs((T(i,j) - prev_iter)/T(i,j)) * 100;
             if error > max_error
                 max_error = error;
             end
@@ -58,7 +83,7 @@ disp(T);
 
 % Plotting the result
 [X, Y] = meshgrid(1:N, 1:N);
-figure;
+figure(3);
 surf(X, Y, T, 'EdgeColor', 'none');
 xlabel('X');
 ylabel('Y');
@@ -66,3 +91,16 @@ zlabel('Temperature (°F)');
 title('Steady-State Temperature Distribution (Gauss-Seidel)');
 colorbar;
 view(45,30);
+
+
+% Top View Results
+[X, Y] = meshgrid(1:N, 1:N);
+figure(4);
+surf(X, Y, T, 'EdgeColor', 'none');
+xlabel('X');
+ylabel('Y');
+zlabel('Temperature (°F)');
+title('Top View Steady-State Temperature Distribution (Gauss-Seidel)');
+colorbar;
+view(2);
+

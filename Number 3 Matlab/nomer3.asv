@@ -55,23 +55,18 @@ xlabel("X"); ylabel("Y"); zlabel("Temperature (°F)");
 title('Top View IC & BC Temperature Distribution (Gauss-Seidel)');
 view(2);
 
-
-% Numerical procedure
 % Convergence criteria
 epsilon_s = 1; % convergence tolerance in %
-max_iter = 10000; % maximum iteration 
+max_iter = 10000;
 
-% Relaxition Paramter for faster calculation
-omega = 1.5; % Relaxation Parameter
-
-% Gauss-Seidel Algorithm 
+% Gauss-Seidel Iteration
 for iter = 1:max_iter
     max_error = 0;
     for i = 2:nndx-1
         for j = 2:nndy-1
-            T_prev_iter = T(i,j);
+            prev_iter = T(i,j);
             T(i,j) = 0.25 * (T(i+1,j) + T(i-1,j) + T(i,j+1) + T(i,j-1));
-            error = abs((T(i,j) - T_prev_iter)/T(i,j)) * 100;
+            error = abs((T(i,j) - prev_iter)/T(i,j)) * 100;
             if error > max_error
                 max_error = error;
             end
@@ -85,11 +80,11 @@ for iter = 1:max_iter
 end
 
 % Display final 3x3 interior values
-fprintf('Final Temperature at Interior Points (%.f x %.f):\n',nelx-1,nely-1);
+fprintf('Final Temperature at Interior Points (%.1fx%.4f):',round(nelx-2) ,round(nely-2));
 disp(T(2:nndx-1, 2:nndy-1));
 
 % Optional: Full Grid Display
-fprintf('Full Temperature Grid (%.f x %.f):\n',nelx,nely);
+fprintf('Full Temperature Grid (%.4fx%.4f):',round(nelx) ,round(nely));
 disp(T);
 
 % Plotting the result
