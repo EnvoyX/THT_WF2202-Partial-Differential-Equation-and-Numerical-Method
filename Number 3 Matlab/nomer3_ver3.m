@@ -1,5 +1,11 @@
 clc; clear; close all;
 
+
+% Input SID/NIM
+NIM = input("Input NIM/SID: ");
+fprintf('SID/NIM Number: %d\n', NIM);
+NIM = num2str(NIM);  % Convert to array of string;
+
 % Grid Size (3x3 interior, so 5x5 including boundaries)
 N = 5;
 
@@ -7,15 +13,17 @@ N = 5;
 Length = 5;
 width = 5;
 
-% Boundary Conditions from NIM 13123069
-T_top = 131;
-T_right = 23;
-T_bottom = 6;
-T_left = 9;
+% Boundary Conditions from NIM
+T_top = str2double(NIM(1:3));
+T_right = str2double(NIM(4:5));
+T_bottom = str2double(NIM(6:7));
+T_left = str2double(NIM(8));
 
 % Convergence criteria
 epsilon_s = 1; % convergence tolerance in %
 max_iter = 10000;
+% Relaxition Paramter for faster calculation
+omega = 1; % Relaxation Parameter (1 for Gauss-Seidel)
 
 % Initialize grid
 T = zeros(N, N);
@@ -57,7 +65,7 @@ for iter = 1:max_iter
     for i = 2:N-1
         for j = 2:N-1
             prev_iter = T(i,j);
-            T(i,j) = 0.25 * (T(i+1,j) + T(i-1,j) + T(i,j+1) + T(i,j-1));
+            T(i,j) = (1 - omega)*T(i,j) + omega * 0.25 * (T(i+1,j) + T(i-1,j) + T(i,j+1) + T(i,j-1));
             error = abs((T(i,j) - prev_iter)/T(i,j)) * 100;
             if error > max_error
                 max_error = error;

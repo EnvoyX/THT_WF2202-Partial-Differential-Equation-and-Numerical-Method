@@ -11,7 +11,7 @@ NIM = num2str(NIM);  % Convert to array of string;
 Length = 5;
 Width = 5;
 
-nelx = 10; % number of elements in x direction
+nelx = 10;% number of elements in x direction
 nely = 10; % number of elements in y direction
 nndx = nelx + 1; % number of nodes in x direction
 nndy = nely + 1; % number of nodes in y direction
@@ -67,7 +67,7 @@ epsilon_s = 1; % convergence tolerance in %
 max_iter = 10000; % maximum iteration 
 
 % Relaxition Paramter for faster calculation
-omega = 1; % Relaxation Parameter
+omega = 1; % Relaxation Parameter (1 for Gauss-Seidel)
 
 % Gauss-Seidel Algorithm 
 for iter = 1:max_iter
@@ -75,7 +75,7 @@ for iter = 1:max_iter
     for i = 2:nndx-1
         for j = 2:nndy-1
             T_prev_iter = T(i,j);
-            T(i,j) = 0.25 * (T(i+1,j) + T(i-1,j) + T(i,j+1) + T(i,j-1));
+            T(i,j) = (1 - omega)*T(i,j) + omega * 0.25 * (T(i+1,j) + T(i-1,j) + T(i,j+1) + T(i,j-1));
             error = abs((T(i,j) - T_prev_iter)/T(i,j)) * 100;
             if error > max_error
                 max_error = error;
