@@ -14,7 +14,7 @@ h = 20;
 % konstanta C untuk menyederhanakan persamaan
 C = M / (E * I);
 
-%ini function handle jadi saya bisa langsung recall fy dan fz nya langsung
+%ini function handle bisa langsung recall fy dan fz nya langsung
 fy = @(z) z; 
 fz = @(z, C) C * (1 + z^2)^(3/2); 
 
