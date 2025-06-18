@@ -36,13 +36,13 @@ T(Nx, :) = T_bottom;      % Bottom side
 T(:, 1) = T_left;        % Left side
 T(:, Ny) = T_right;       % Right side
 
+fprintf('Top_side = %d, Bottom_side = %d, Left_side = %d, Right_side = %d\n', T_top, T_right, T_bottom, T_left);
+
 % Fix the corners by averaging overlapping BCs
 T(1,1)   = (T_top + T_left) / 2;      % Top-left
 T(1,Ny)   = (T_top + T_right) / 2;     % Top-right
 T(Nx,1)   = (T_bottom + T_left) / 2;   % Bottom-left
 T(Nx,Ny)   = (T_bottom + T_right) / 2;  % Bottom-right
-
-fprintf(' Top_side = %d \n Bottom_side = %d \n Left_side = %d \n Right_side = %d\n', T(1,1), T(1,Ny), T(Nx,1), T(Nx,Ny));
 
 % Initial Matrix T
 disp(T);
@@ -52,7 +52,7 @@ figure;
 [x,y] = meshgrid(dx,dy);
 surf(x,y,T);
 colorbar;
-xlabel("X (Bottom Plate)"); ylabel("Y (Right Plate)"); zlabel("Temperature (°F)");
+xlabel("X"); ylabel("Y"); zlabel("Temperature (°F)");
 title('Initial and Boundary Conditions Temperature Distribution (Gauss-Seidel)');
 view(45,30);
 
@@ -60,8 +60,8 @@ view(45,30);
 figure;
 h = heatmap(T);
 h.Title = 'Heated Plate Temperature Gradient Initial & Boundary Conditions';
-h.XLabel = 'X (Bottom)';
-h.YLabel = 'Y (Left)';
+h.XLabel = 'Left';
+h.YLabel = 'Bottom'
 
 
 % Numerical procedure
@@ -92,11 +92,11 @@ for iter = 1:max_iter
     end
 end
 
-% Display final interior values
+% Display final 3x3 interior values
 fprintf('Final Temperature at Interior Points (%.f x %.f):\n',elX-1,elY-1);
 disp(T(2:Nx-1, 2:Ny-1));
 
-% Full Grid Display
+% Optional: Full Grid Display
 fprintf('Full Temperature Grid (%.f x %.f):\n',elX,elY);
 disp(T);
 
@@ -104,8 +104,8 @@ disp(T);
 [X, Y] = meshgrid(dx, dy);
 figure;
 surf(X, Y, T, 'EdgeColor', 'none');
-xlabel('X (Bottom Plate)');
-ylabel('Y (Right Plate)');
+xlabel('X');
+ylabel('Y');
 zlabel('Temperature (°F)');
 title('Steady-State Temperature Distribution (Gauss-Seidel)');
 colorbar;
@@ -116,6 +116,6 @@ view(45,30);
 figure;
 h = heatmap(T);
 h.Title = 'Heated Plate Temperature Gradient';
-h.XLabel = 'X (Bottom)';
-h.YLabel = 'Y (Left)';
+h.XLabel = 'Left';
+h.YLabel = 'Bottom'
 
